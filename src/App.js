@@ -1,17 +1,8 @@
 import React from 'react';
 import './App.css';
+import {Header} from "./components/Header";
 
-const Header = (props) => {
-  console.log(props);
-  // destruct assignment
-  const {title, totalPlayers} = props;
-  return (
-    <header className="header">
-      <h1 className="h1">{title}</h1>
-      <span className='stats'>Players: {totalPlayers}</span>
-    </header>
-  );
-}
+
 
 // 3) 자식이 함수선언문에 되도록 애로우 함수 사용
 const Player = (props) => (
