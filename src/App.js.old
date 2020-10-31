@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
 import {Header} from "./components/Header";
 import Player from "./components/Player";
@@ -8,15 +8,27 @@ import _ from 'lodash';
 
 let maxId = 4;
 
-function App(props) {
-  const [players, setPlayers] = useState([
-    {name: 'LDK', score: 0, id: 1},
-    {name: 'HONG', score: 0, id: 2},
-    {name: 'KIM', score: 0, id: 3},
-    {name: 'PARK',score: 0, id: 4},
-  ]);
 
-  const handleRemovePlayer = (id) => {
+
+function App(props) {
+  return (
+    <div></div>
+  );
+}
+
+export default App;
+
+class App extends React.Component {
+  state = {
+    players: [
+      {name: 'LDK', score: 0, id: 1},
+      {name: 'HONG', score: 0, id: 2},
+      {name: 'KIM', score: 0, id: 3},
+      {name: 'PARK',score: 0, id: 4},
+    ]
+  }
+
+  handleRemovePlayer = (id) => {
     console.log('handleRemovePlayer: ', id);
     // 로직 작성
     this.setState((prevState) => {
@@ -27,7 +39,7 @@ function App(props) {
     })
   }
 
-  const handleChangeScore = (delta, id) => {
+  handleChangeScore = (delta, id) => {
     console.log('handleChangeScore:', delta, id);
     this.setState((prevState) => {
       const players = [ ...prevState.players ];
@@ -40,7 +52,7 @@ function App(props) {
     })
   }
 
-  const handleAddPlayer = (name) => {
+  handleAddPlayer = (name) => {
     console.log('handleAddPlayer: ', name);
     this.setState(prevState => {
       const players = [ ...prevState.players ];
@@ -50,28 +62,30 @@ function App(props) {
     })
   }
   // 가자 높은 score를 리턴
-  const getHighScore = () => {
+  getHighScore() {
     const maxObj = _.maxBy(this.state.players, 'score');
     return maxObj.score ? maxObj.score : null;
   }
 
-  return (
-    <div className='scoreboard'>
-      <Header title='My Scoreboard' players={this.state.players} />
+  render() {
+    return (
+      <div className='scoreboard'>
+        <Header title='My Scoreboard' players={this.state.players} />
 
-      {
-        this.state.players.map(player => (
-          <CustomPlayer name={player.name} key={player.id}
-                        id={player.id}
-                        score={player.score}
-                        isHighScore={player.score === this.getHighScore()}
-                        changeScore={this.handleChangeScore}
-                        removePlayer={this.handleRemovePlayer} />
-        ))
-      }
-      <AddPlayerForm addPlayer={this.handleAddPlayer}></AddPlayerForm>
-    </div>
-  );
+        {
+          this.state.players.map(player => (
+            <CustomPlayer name={player.name} key={player.id}
+                          id={player.id}
+                          score={player.score}
+                          isHighScore={player.score === this.getHighScore()}
+                          changeScore={this.handleChangeScore}
+                          removePlayer={this.handleRemovePlayer} />
+          ))
+        }
+        <AddPlayerForm addPlayer={this.handleAddPlayer}></AddPlayerForm>
+      </div>
+    );
+  }
 }
 
 export default App;
